@@ -2,6 +2,12 @@
 
 namespace filsh\yii2\oauth2server;
 
+use OAuth2\TokenType\TokenTypeInterface;
+use OAuth2\ScopeInterface;
+use OAuth2\ClientAssertionType\ClientAssertionTypeInterface;
+use OAuth2\RequestInterface;
+use OAuth2\ResponseInterface;
+
 class Server extends \OAuth2\Server
 {
     use traits\ClassNamespace;
@@ -11,7 +17,7 @@ class Server extends \OAuth2\Server
      */
     protected $module;
     
-    public function __construct(Module $module, $storage = array(), array $config = array(), array $grantTypes = array(), array $responseTypes = array(), \OAuth2\TokenType\TokenTypeInterface $tokenType = null, \OAuth2\ScopeInterface $scopeUtil = null, \OAuth2\ClientAssertionType\ClientAssertionTypeInterface $clientAssertionType = null)
+    public function __construct(Module $module, $storage = array(), array $config = array(), array $grantTypes = array(), array $responseTypes = array(), ?TokenTypeInterface $tokenType = null, ?ScopeInterface $scopeUtil = null, ?ClientAssertionTypeInterface $clientAssertionType = null)
     {
         $this->module = $module;
         parent::__construct($storage, $config, $grantTypes, $responseTypes, $tokenType, $scopeUtil, $clientAssertionType);
@@ -23,7 +29,7 @@ class Server extends \OAuth2\Server
         return $accessToken->createAccessToken($clientId, $userId, $scope, $includeRefreshToken);
     }
     
-    public function verifyResourceRequest(\OAuth2\RequestInterface $request = null, \OAuth2\ResponseInterface $response = null, $scope = null)
+    public function verifyResourceRequest(?RequestInterface $request = null, ?ResponseInterface $response = null, $scope = null)
     {
         if($request === null) {
             $request = $this->module->getRequest();
@@ -31,7 +37,7 @@ class Server extends \OAuth2\Server
         return parent::verifyResourceRequest($request, $response, $scope);
     }
     
-    public function handleTokenRequest(\OAuth2\RequestInterface $request = null, \OAuth2\ResponseInterface $response = null)
+    public function handleTokenRequest(?RequestInterface $request = null, ?ResponseInterface $response = null)
     {
         if($request === null) {
             $request = $this->module->getRequest();
@@ -39,7 +45,7 @@ class Server extends \OAuth2\Server
         return parent::handleTokenRequest($request, $response);
     }
     
-    public function handleRevokeRequest(\OAuth2\RequestInterface $request = null, \OAuth2\ResponseInterface $response = null)
+    public function handleRevokeRequest(?RequestInterface $request = null, ?ResponseInterface $response = null)
     {
         if($request === null) {
             $request = $this->module->getRequest();
@@ -47,7 +53,7 @@ class Server extends \OAuth2\Server
         return parent::handleRevokeRequest($request, $response);
     }
 
-    public function handleAuthorizeRequest(\OAuth2\RequestInterface $request = null, \OAuth2\ResponseInterface $response = null, $isAuthorized = false, $userId = null)
+    public function handleAuthorizeRequest(?RequestInterface $request = null, ?ResponseInterface $response = null, $isAuthorized = false, $userId = null)
     {
         if($request === null) {
             $request = $this->module->getRequest();
@@ -59,7 +65,7 @@ class Server extends \OAuth2\Server
         return parent::handleAuthorizeRequest($request, $response, $isAuthorized, $userId);
     }
 
-    public function handleUserInfoRequest(\OAuth2\RequestInterface $request = null, \OAuth2\ResponseInterface $response = null)
+    public function handleUserInfoRequest(?RequestInterface $request = null, ?ResponseInterface $response = null)
     {
         if($request === null) {
             $request = $this->module->getRequest();
