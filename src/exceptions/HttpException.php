@@ -17,7 +17,7 @@ class HttpException extends \yii\web\HttpException
      * @param integer $code error code
      * @param \Exception $previous The previous exception used for the exception chaining.
      */
-    public function __construct($status, $message = null, $errorUri = null, $code = 0, \Exception $previous = null)
+    public function __construct($status, $message = null, $errorUri = null, $code = 0, ?\Exception $previous = null)
     {
         $this->errorUri = $errorUri;
         parent::__construct($status, $message, $code, $previous);
